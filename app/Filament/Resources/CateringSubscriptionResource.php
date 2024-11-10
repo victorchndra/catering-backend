@@ -17,7 +17,9 @@ class CateringSubscriptionResource extends Resource
 {
     protected static ?string $model = CateringSubscription::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-hand-thumb-up';
+
+    protected static ?string $navigationGroup = 'Customers';
 
     public static function form(Form $form): Form
     {

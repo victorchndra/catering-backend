@@ -6,9 +6,15 @@ use App\Filament\Resources\CateringTestimonialResource\Pages;
 use App\Filament\Resources\CateringTestimonialResource\RelationManagers;
 use App\Models\CateringTestimonial;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -17,13 +23,31 @@ class CateringTestimonialResource extends Resource
 {
     protected static ?string $model = CateringTestimonial::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-star';
+
+    protected static ?string $navigationGroup = 'Customers';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 //
+                TextInput::make('name')
+                ->required()
+                ->maxLength(255),
+
+                FileUpload::make('photo')
+                ->image()
+                ->required(),
+
+                Select::make('catering_package_id')
+                ->relationship('cateringPackage', 'name') // relational method from model
+                ->searchable()
+                ->preload()
+                ->required(),
+
+                Textarea::make('message')
+                ->required(),
             ]);
     }
 
@@ -32,6 +56,9 @@ class CateringTestimonialResource extends Resource
         return $table
             ->columns([
                 //
+                ImageColumn::make('cateringPackage.thumbnail'),
+                ImageColumn::make('photo')->circular(),
+                TextColumn::make('name')->searchable(),
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
