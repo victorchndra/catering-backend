@@ -20,9 +20,6 @@ Route::get('/filters/catering-packages', [CategoryController::class, 'filterPack
 Route::get('/category/{category:slug}', [CategoryController::class, 'show']);
 Route::apiResource('/categories', CategoryController::class);
 
-Route::get('/category/{category:slug}', [CategoryController::class, 'show']);
-Route::apiResource('/categories', CategoryController::class);
-
 Route::get('/city/{city:slug}', [CityController::class, 'show']);
 Route::apiResource('/cities', CityController::class);
 
